@@ -1,0 +1,12 @@
+{
+  "name": "webgl-particles-spg",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+	"local" : "./node_modules/http-server/bin/http-server"
+  },	
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
