@@ -4,9 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-	"local" : "./node_modules/http-server/bin/http-server"
-  },	
+    "local": "./node_modules/http-server/bin/http-server"
+  },
   "dependencies": {
-    "http-server": "^0.12.3"
+    "http-server": "^0.12.3",
+    "three": "^0.121.1"
   }
 }
