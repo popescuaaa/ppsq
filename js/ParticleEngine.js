@@ -209,7 +209,7 @@ function ParticleEngine()
 		depthTest: true,
 		
 	});
-
+	
 	this.particleMesh = new THREE.Mesh();
 }
 	
@@ -402,4 +402,4 @@ ParticleEngine.prototype.destroy = function()
 {
     scene.remove( this.particleMesh );
 }
-
+///////////////////////////////////////////////////////////////////////////////
