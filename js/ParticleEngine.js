@@ -1,17 +1,6 @@
 /**
-* @author Lee Stemkoski   http://www.adelphi.edu/~stemkoski/
+* @author popescuaaa
 */
-
-///////////////////////////////////////////////////////////////////////////////
-
-/////////////
-// SHADERS //
-/////////////
-
-// attribute: data that may be different for each particle (such as size and color);
-//      can only be used in vertex shader
-// varying: used to communicate data from vertex shader to fragment shader
-// uniform: data that is the same for each particle (such as texture)
 
 particleVertexShader = 
 [
@@ -55,11 +44,6 @@ particleFragmentShader =
 "}"
 ].join("\n");
 
-///////////////////////////////////////////////////////////////////////////////
-
-/////////////////
-// TWEEN CLASS //
-/////////////////
 
 function Tween(timeArray, valueArray)
 {
@@ -81,12 +65,6 @@ Tween.prototype.lerp = function(t)
 	else // its a float
 		return this.values[i-1] + p * (this.values[i] - this.values[i-1]);
 }
-
-///////////////////////////////////////////////////////////////////////////////
-
-////////////////////
-// PARTICLE CLASS //
-////////////////////
 
 function Particle()
 {
@@ -179,7 +157,6 @@ function ParticleEngine()
 	this.sizeTween  = new Tween();
 			
 	// store colors in HSL format in a THREE.Vector3 object
-	// http://en.wikipedia.org/wiki/HSL_and_HSV
 	this.colorBase   = new THREE.Vector3(0.0, 1.0, 0.5); 
 	this.colorSpread = new THREE.Vector3(0.0, 0.0, 0.0);
 	this.colorTween  = new Tween();
@@ -228,9 +205,11 @@ function ParticleEngine()
 		vertexShader:   particleVertexShader,
 		fragmentShader: particleFragmentShader,
 		transparent: true, // alphaTest: 0.5,  // if having transparency issues, try including: alphaTest: 0.5, 
-		blending: THREE.NormalBlending, depthTest: true,
+		blending: THREE.NormalBlending, 
+		depthTest: true,
 		
 	});
+
 	this.particleMesh = new THREE.Mesh();
 }
 	
@@ -423,4 +402,4 @@ ParticleEngine.prototype.destroy = function()
 {
     scene.remove( this.particleMesh );
 }
-///////////////////////////////////////////////////////////////////////////////
+
