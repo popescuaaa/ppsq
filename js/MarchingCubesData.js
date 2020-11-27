@@ -1,18 +1,3 @@
-/**
- * @author alteredq / http://alteredqualia.com/
- *
- * Port of greggman's ThreeD version of marching cubes to Three.js
- * http://webglsamples.googlecode.com/hg/blob/blob.html
- */
-
-/////////////////////////////////////
-// Marching cubes lookup tables
-/////////////////////////////////////
-
-// These tables are straight from Paul Bourke's page:
-// http://local.wasp.uwa.edu.au/~pbourke/geometry/polygonise/
-// who in turn got them from Cory Gene Bloyd.
-
 THREE.edgeTable = new Int32Array([
 0x0  , 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c,
 0x80c, 0x905, 0xa0f, 0xb06, 0xc0a, 0xd03, 0xe09, 0xf00,

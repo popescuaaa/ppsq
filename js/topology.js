@@ -1,7 +1,3 @@
-/**
- * @author Lee Stemkoski
- */
- 
 // declare namespace
 var TOPOLOGY = TOPOLOGY || {};
 

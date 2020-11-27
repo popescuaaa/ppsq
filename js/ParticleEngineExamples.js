@@ -1,7 +1,3 @@
-/**
-* @author Lee Stemkoski   http://www.adelphi.edu/~stemkoski/
-*/
-
 /* 
 	Particle Engine options:
 	

@@ -1,12 +1,3 @@
-/*
- Based on ndef.parser, by Raphael Graf(r@undefined.ch)
- http://www.undefined.ch/mparser/index.html
-*/
-
-//  Added by stlsmiths 6/13/2011
-//  re-define Array.indexOf, because IE doesn't know it ...
-//
-//  from http://stellapower.net/content/javascript-support-and-arrayindexof-ie
 	if (!Array.indexOf) {
 		Array.prototype.indexOf = function (obj, start) {
 			for (var i = (start || 0); i < this.length; i++) {

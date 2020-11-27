@@ -1,32 +1,3 @@
-/*
- *	@author zz85 / http://twitter.com/blurspline / http://www.lab4games.net/zz85/blog 
- *
- *	Subdivision Geometry Modifier 
- *		using Catmull-Clark Subdivision Surfaces
- *		for creating smooth geometry meshes
- *
- *	Note: a modifier modifies vertices and faces of geometry,
- *		so use geometry.clone() if original geometry needs to be retained
- * 
- *	Readings: 
- *		http://en.wikipedia.org/wiki/Catmull%E2%80%93Clark_subdivision_surface
- *		http://www.rorydriscoll.com/2008/08/01/catmull-clark-subdivision-the-basics/
- *		http://xrt.wikidot.com/blog:31
- *		"Subdivision Surfaces in Character Animation"
- *
- *		(on boundary edges)
- *		http://rosettacode.org/wiki/Catmull%E2%80%93Clark_subdivision_surface
- *		https://graphics.stanford.edu/wikis/cs148-09-summer/Assignment3Description
- *
- *	Supports:
- *		Closed and Open geometries.
- *
- *	TODO:
- *		crease vertex and "semi-sharp" features
- *		selective subdivision
- */
-
-
 THREE.SubdivisionModifier = function ( subdivisions ) {
 
 	this.subdivisions = (subdivisions === undefined ) ? 1 : subdivisions;
