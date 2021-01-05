@@ -118,7 +118,7 @@ Particle.prototype.update = function(dt)
 // PARTICLE ENGINE CLASS //
 ///////////////////////////
 
-var Type = Object.freeze({ "CUBE":1, "SPHERE":2 });
+const Type = Object.freeze({"CUBE": 1, "SPHERE": 2});
 
 function ParticleEngine()
 {
@@ -151,6 +151,7 @@ function ParticleEngine()
 	this.angleVelocitySpread     = 0;
 	this.angleAccelerationBase   = 0;
 	this.angleAccelerationSpread = 0;
+	this.gravity 				 = 0;
 
 	this.sizeBase   = 0.0;
 	this.sizeSpread = 0.0;
@@ -222,7 +223,7 @@ ParticleEngine.prototype.setValues = function( parameters )
 	this.colorTween   = new Tween();
 	this.opacityTween = new Tween();
 
-	for ( var key in parameters )
+	for (const key in parameters )
 		this[ key ] = parameters[ key ];
 
 	// attach tweens to particles
@@ -296,8 +297,9 @@ ParticleEngine.prototype.createParticle = function()
 		const speed = this.randomValue(this.speedBase, this.speedSpread);
 		particle.velocity  = direction.normalize().multiplyScalar( speed );
 	}
+	particle.gravity = this.gravity;
 
-	particle.acceleration = this.randomVector3( this.accelerationBase, this.accelerationSpread );
+	particle.acceleration = this.randomVector3( this.accelerationBase, this.accelerationSpread ) + particle.gravity;
 
 	particle.angle             = this.randomValue( this.angleBase,             this.angleSpread );
 	particle.angleVelocity     = this.randomValue( this.angleVelocityBase,     this.angleVelocitySpread );
@@ -385,7 +387,7 @@ ParticleEngine.prototype.update = function(dt)
 			this.particleArray[i].alive = 1.0;
 	}
 
-	// if any particles have died while the emitter is still running, we imediately recycle them
+	// if any particles have died while the emitter is still running, we immediately recycle them
 	for (let j = 0; j < recycleIndices.length; j++)
 	{
 		i = recycleIndices[j];
