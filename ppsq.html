@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Pragmatical Praticle Engine Quantification</title>
+    <title>Pragmatical Particle Engine Quantification</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -30,11 +30,10 @@
 
     <div id="ThreeJS" style="position: absolute; left: 0px; top: 0px"></div>
     <script>
-      var container, scene, camera, renderer, controls, stats;
-      var keyboard = new THREEx.KeyboardState();
-      var clock = new THREE.Clock();
+      let container, scene, camera, renderer, controls, stats;
+      const clock = new THREE.Clock();
 
-      var cube;
+      let cube;
 
       init();
       animate();
@@ -46,12 +45,12 @@
         scene = new THREE.Scene();
 
         // CAMERA
-        var SCREEN_WIDTH = window.innerWidth,
-          SCREEN_HEIGHT = window.innerHeight;
-        var VIEW_ANGLE = 45,
-          ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
-          NEAR = 2,
-          FAR = 5000;
+        const SCREEN_WIDTH = window.innerWidth,
+                SCREEN_HEIGHT = window.innerHeight;
+        const VIEW_ANGLE = 45,
+                ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
+                NEAR = 2,
+                FAR = 5000;
         camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
         scene.add(camera);
         camera.position.set(0, 200, 400);
@@ -80,94 +79,94 @@
         container.appendChild(stats.domElement);
 
         // LIGHT
-        var light = new THREE.PointLight(0xffffff);
+        const light = new THREE.PointLight(0xffffff);
         light.position.set(0, 250, 0);
         scene.add(light);
 
         // FLOOR
-        var floorTexture = new THREE.ImageUtils.loadTexture(
-          "images/checkerboard.jpg"
+        const floorTexture = new THREE.ImageUtils.loadTexture(
+                "images/checkerboard.jpg"
         );
         floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
         floorTexture.repeat.set(10, 10);
-        var floorMaterial = new THREE.MeshBasicMaterial({
+        const floorMaterial = new THREE.MeshBasicMaterial({
           color: 0x444444,
           map: floorTexture,
           side: THREE.DoubleSide,
         });
-        var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-        var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+        const floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+        const floor = new THREE.Mesh(floorGeometry, floorMaterial);
         floor.position.y = -10.5;
         floor.rotation.x = Math.PI / 2;
         scene.add(floor);
 
         // SKYBOX/FOG
-        var skyBoxGeometry = new THREE.CubeGeometry(4000, 4000, 4000);
-        var skyBoxMaterial = new THREE.MeshBasicMaterial({
+        const skyBoxGeometry = new THREE.CubeGeometry(4000, 4000, 4000);
+        const skyBoxMaterial = new THREE.MeshBasicMaterial({
           color: 0x000000,
           side: THREE.BackSide,
         });
-        var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
+        const skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
         scene.add(skyBox);
 
         this.engine = new ParticleEngine();
         engine.setValues(Examples.fountain);
+        // Add a custom field for current configuration to enable changes on specific target
+        // Names must match the examples entries
+        engine.currentConfiguration = 'fountain';
+
         engine.initialize();
 
         // GUI for experimenting with parameters
 
-        gui = new dat.GUI();
+        const gui = new dat.GUI();
 
-        parameters = {
+        const parameters = {
+          rain: function () {
+            restartEngine(Examples.rain, 'rain');
+          },
           fountain: function () {
-            restartEngine(Examples.fountain);
+            restartEngine(Examples.fountain, 'fountain');
           },
           startunnel: function () {
-            restartEngine(Examples.startunnel);
+            restartEngine(Examples.startunnel, 'startunnel');
           },
           starfield: function () {
-            restartEngine(Examples.starfield);
+            restartEngine(Examples.starfield, 'starfield');
           },
           fireflies: function () {
-            restartEngine(Examples.fireflies);
+            restartEngine(Examples.fireflies, 'fireflies');
           },
           clouds: function () {
-            restartEngine(Examples.clouds);
+            restartEngine(Examples.clouds, 'clouds');
           },
           smoke: function () {
-            restartEngine(Examples.smoke);
+            restartEngine(Examples.smoke, 'smoke');
           },
           fireball: function () {
-            restartEngine(Examples.fireball);
+            restartEngine(Examples.fireball, 'fireball');
           },
           candle: function () {
-            restartEngine(Examples.candle);
-          },
-          rain: function () {
-            restartEngine(Examples.rain);
+            restartEngine(Examples.candle, 'candle');
           },
           snow: function () {
-            restartEngine(Examples.snow);
+            restartEngine(Examples.snow, 'snow');
           },
           firework: function () {
-            restartEngine(Examples.firework);
-          },
-          save: function () {
-			console.log('This will save as a json object all current data configuration');
-          },
-		  gravity: function() {
-			 
-		  },
-		  particles_density: function() {
-			this.engine.particlesPerSecond += 100;
-		  },
-		  life_time: function() {
-
-		  }
+            restartEngine(Examples.firework, 'firework');
+          }
         };
 
-		envs = gui.addFolder("Environments");
+        const options = {
+          density: 200, // particles per second
+          lifespan: 10, // particle death age
+          scale: 1,
+        }
 
+        // These are the basic environments for the project
+		const envs = gui.addFolder("Environments");
+
+        envs.add(parameters, "snow").name("Snow");
         envs.add(parameters, "fountain").name("Star Fountain");
         envs.add(parameters, "startunnel").name("Star Tunnel");
         envs.add(parameters, "starfield").name("Star Field");
@@ -177,41 +176,75 @@
         envs.add(parameters, "fireball").name("Fireball");
         envs.add(parameters, "candle").name("Candle");
         envs.add(parameters, "rain").name("Rain");
-        envs.add(parameters, "snow").name("Snow");
         envs.add(parameters, "firework").name("Firework");
 
-		config = gui.addFolder("Config")
-		config.add(parameters, "particles_density").name('Particles density')
-        config.add(parameters, "save").name('Save config');
+        // These is a dynamic parameters controller
+        // For every change in current configurations we change the parameter and restart engine
+
+        const controllers = gui.addFolder("Controllers");
+
+        const densityHandler = controllers.add(options, 'density', 200, 1000).name('density').listen();
+        const lifespanHandler = controllers.add(options, 'lifespan', 1.0, 100.0).name('lifespan').listen();
+        const scaleHandler = controllers.add(options, 'scale', 1.0, 2.0).name('scale').listen();
+
+        // handlers
+        densityHandler.onChange(function (newDensity) {
+            let entry = engine.currentConfiguration;
+            Examples[entry].particlesPerSecond = newDensity;
+            restartEngine( Examples[entry], entry);
+        });
+
+        lifespanHandler.onChange(function (newLifespan) {
+          let entry = engine.currentConfiguration;
+          Examples[entry].particleDeathAge = newLifespan;
+          restartEngine( Examples[entry], entry );
+        });
+
+        scaleHandler.onChange(function (newScale) {
+          let entry = engine.currentConfiguration;
+          if (Examples[entry].hasOwnProperty('sizeTween')) {
+            let timeArray = Examples[entry].sizeTween.times;
+            let valuesArray = Examples[entry].sizeTween.values;
+            let newValuesArray = valuesArray * newScale;
+            Examples[entry].sizeTween = new Tween(timeArray, newValuesArray);
+            restartEngine(Examples[entry]);
+          } else {
+            Examples[entry].sizeBase = Examples[entry].sizeBase * newScale;
+            Examples[entry].sizeSpread = Examples[entry].sizeSpread * newScale;
+            restartEngine(Examples[entry]);
+          }
+        });
+
 
         gui.open();
       }
 
       function animate() {
+        console.log(this.engine.currentConfiguration)
         requestAnimationFrame(animate);
         render();
         update();
       }
 
-      function restartEngine(parameters) {
+      function restartEngine(parameters, currentConfiguration) {
         resetCamera();
 
         engine.destroy();
         engine = new ParticleEngine();
+        engine.currentConfiguration = currentConfiguration;
         engine.setValues(parameters);
         engine.initialize();
       }
 
       function resetCamera() {
         // CAMERA
-        var SCREEN_WIDTH = window.innerWidth,
-          SCREEN_HEIGHT = window.innerHeight;
-        var VIEW_ANGLE = 45,
-          ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
-          NEAR = 0.1,
-          FAR = 20000;
+        const SCREEN_WIDTH = window.innerWidth,
+                SCREEN_HEIGHT = window.innerHeight;
+        const VIEW_ANGLE = 45,
+                ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
+                NEAR = 0.1,
+                FAR = 20000;
         camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-        //camera.up = new THREE.Vector3( 0, 0, 1 );
         camera.position.set(0, 200, 400);
         camera.lookAt(scene.position);
         scene.add(camera);
@@ -221,40 +254,10 @@
       }
 
       function update() {
-        /*
-	if ( keyboard.pressed("1") ) 
-		restartEngine( fountain );
-	if ( keyboard.pressed("2") ) 
-		restartEngine( startunnel );
-	if ( keyboard.pressed("3") ) 
-		restartEngine( starfield );
-	if ( keyboard.pressed("4") ) 
-		restartEngine( fireflies );
-		
-	if ( keyboard.pressed("5") ) 
-		restartEngine( clouds );
-	if ( keyboard.pressed("6") ) 
-		restartEngine( smoke );
-		
-	if ( keyboard.pressed("7") ) 
-		restartEngine( fireball );
-	if ( keyboard.pressed("8") ) 
-		restartEngine( Examples.candle );
-		
-	if ( keyboard.pressed("9") ) 
-		restartEngine( rain );
-	if ( keyboard.pressed("0") ) 
-		restartEngine( snow );
-		
-	if ( keyboard.pressed("q") ) 
-		restartEngine( firework );
-	// also: reset camera angle
-*/
-
         controls.update();
         stats.update();
 
-        var dt = clock.getDelta();
+        const dt = clock.getDelta();
         engine.update(dt * 0.5);
       }
 
