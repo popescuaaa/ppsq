@@ -91,8 +91,6 @@ Examples =
 		particlesPerSecond : 200,
 		particleDeathAge   : 3.0,
 		emitterDeathAge    : 60,
-
-		gravity			   : 1000
 	},
 
 	fireball :

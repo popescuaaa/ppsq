@@ -125,6 +125,7 @@ function ParticleEngine()
 	/////////////////////////
 	// PARTICLE PROPERTIES //
 	/////////////////////////
+	this.name = "default";
 
 	this.positionStyle = Type.CUBE;
 	this.positionBase   = new THREE.Vector3();
@@ -151,7 +152,6 @@ function ParticleEngine()
 	this.angleVelocitySpread     = 0;
 	this.angleAccelerationBase   = 0;
 	this.angleAccelerationSpread = 0;
-	this.gravity 				 = 0;
 
 	this.sizeBase   = 0.0;
 	this.sizeSpread = 0.0;
@@ -297,13 +297,12 @@ ParticleEngine.prototype.createParticle = function()
 		const speed = this.randomValue(this.speedBase, this.speedSpread);
 		particle.velocity  = direction.normalize().multiplyScalar( speed );
 	}
-	particle.gravity = this.gravity;
 
-	particle.acceleration = this.randomVector3( this.accelerationBase, this.accelerationSpread ) + particle.gravity;
+	particle.acceleration = this.randomVector3( this.accelerationBase, this.accelerationSpread );
 
 	particle.angle             = this.randomValue( this.angleBase,             this.angleSpread );
 	particle.angleVelocity     = this.randomValue( this.angleVelocityBase,     this.angleVelocitySpread );
-	particle.angleAcceleration = this.randomValue( this.angleAccelerationBase, this.angleAccelerationSpread );
+	particle.angleAcceleration = this.randomValue( this.angleAccelerationBase, this.angleAccelerationSpread ) + 100;
 
 	particle.size = this.randomValue( this.sizeBase, this.sizeSpread );
 
